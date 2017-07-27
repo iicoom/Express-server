@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Hello Express-api</title>
+</head>
+<body>
+	<h1>How are you?</h1>
+	<input type="button" value="fetchData" onclick="fetchData();" />
+	<p></p>
+	<script>		
+
+		function fetchData () {
+
+			fetch("../data/index.json").then(function(res){
+				if (res.ok) {
+					res.json().then(function(data){
+						console.log(data);
+						var showData = document.querySelector('p');
+						showData.innerHTML = JSON.stringify(data);
+					})
+				}
+				else{
+					console.log("Looks like the response wasn't perfect, got status", res.status)
+				}
+			},function(e){
+				console.log("Fetch failed!",e);
+			})
+		}
+
+
+	</script>
+</body>
+</html>
