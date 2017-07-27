@@ -3,13 +3,14 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Hello Express-api</title>
+	<script src="./vender/jquery-3.2.1.min.js"></script>
 </head>
 <body>
 	<h1>How are you?</h1>
 	<input type="button" value="fetchData" onclick="fetchData();" />
 	<p></p>
 	<script>		
-
+		//前端页面
 		function fetchData () {
 
 			fetch("../data/index.json").then(function(res){
@@ -27,6 +28,30 @@
 				console.log("Fetch failed!",e);
 			})
 		}
+
+		// 使用ajax请求questions数据
+		$.ajax({
+			type:'get',
+			url:'http://localhost:3000/questions',
+			success:function(data){
+				console.log(data);
+			},
+			error:function(){
+				console.log('error');
+			}
+		})
+		//使用fetch获取
+		var myInit = { 
+			method: 'GET',
+			mode: 'cors',
+			cache: 'default' 
+		};
+		fetch('http://localhost:3000/questions',myInit)
+			.then(function(response){
+				return response.json()
+			}).then(function(json){
+				console.log('parsed json',json)
+			});
 
 
 	</script>
