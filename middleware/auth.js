@@ -6,7 +6,6 @@ module.exports = exports;
 
 exports.loginRequired = function(roleType) {
 	return function(req,res,next){
-		console.log('oooooxxxxx'+req.session)
 		if (req.session && req.session.userInfo && req.session.userInfo._id) {
 			if (roleType) {
 				if (!Array.isArray(roleType)) {

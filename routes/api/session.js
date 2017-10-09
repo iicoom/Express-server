@@ -25,6 +25,13 @@ router.post("/login", function (req, res) {
         return ranchUtil.doResult(res, ranchUtil.generateErr(ErrorCode.User_ErrorParams, errorMsg));
     }
 
+    //var client_ip = ranchUtil.getClientIP(req);
+    req.session['user-agent']=req.headers['user-agent'];
+    //req.session.ip=client_ip;
+    var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    req.session.ip=ip;
+    console.log(req.session)
+
     var error, result;
     var qAuthUserInfo = q.nbind(userService.authUserInfo);
     var qUserLoginInit = q.nbind(userService.userLoginInit);
