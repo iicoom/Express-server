@@ -69,6 +69,7 @@ exports.doResult = function(res, error, body) {
     res.status(httpStatus).json(error);
   } else {
     var httpStatus = parseInt((ErrorCode.Success + "").substr(0, 3))
+    // console.log(body)
     res.status(httpStatus).json(body);
   }
 }
@@ -124,3 +125,12 @@ exports.deleteModelInfo = function(model) {
     //return JSON.parse(json);
     return model.toObject();
 }
+
+/**
+ * 获取客户端ip
+ * @param req
+ * @returns {*|string}
+ */
+exports.getClientIP = function(req) {
+    return req.headers['x-real-ip'] || req.headers['X-Real-Ip'] ||req.headers['X-Forwarded-For'] || req.headers['x-forwarded-for'] || req.ip;
+};

@@ -20,7 +20,7 @@ app.use(bodyParser.urlencoded({
     extended: false
 }));
 
-
+//连接Redis数据库
 var rc = redis.getRedisClient(config.redis);
 app.use(session({
     secret: config.session_secret,
@@ -29,7 +29,7 @@ app.use(session({
     saveUninitialized: false,
     name: 'token',
     cookie: {
-        maxAge: config.cookie_max_age
+        maxAge: config.cookie_max_age  //毫秒
     },
     store: new RedisStore({
         prefix: "sid:",

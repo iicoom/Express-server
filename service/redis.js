@@ -24,7 +24,7 @@ var getRedisClient = exports.getRedisClient = function(rcc) {
 }
 
 
-//var rc = exports.rc = getRedisClient(config.redis);
+var rc = exports.rc = getRedisClient(config.redis);
 
 
 exports.get = function(key, cb) {

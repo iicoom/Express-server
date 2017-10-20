@@ -1,7 +1,7 @@
 /**
  * 工具包
  */
-// var crypto = require('crypto');
+var crypto = require('crypto');
 // var dateFormat = require('dateformat');
 // var _ = require('lodash');
 // var uuid = require('node-uuid');

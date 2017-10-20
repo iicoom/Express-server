@@ -63,12 +63,12 @@ UserSchema.set('toJSON', {
 });
 
 
-UserSchema.virtual('id')
-    .get(function() {
-        if (typeof this._id == 'object')
-            return this._id.toHexString();
-        return this._id;
-    });
+// UserSchema.virtual('id')
+//     .get(function() {
+//         if (typeof this._id == 'object')
+//             return this._id.toHexString();
+//         return this._id;
+//     });  //返回的无下划线id跟这个貌似没有关系哎
 
 UserSchema.virtual('idcard2')
     .get(function () {

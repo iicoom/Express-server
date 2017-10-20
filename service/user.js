@@ -177,6 +177,19 @@ exports.getUserInfo = function(_id, cb) {
 }
 
 /**
+ * 根据手机号查询用户
+ * @param  {[type]}   mobile [description]
+ * @param  {Function} cb     [description]
+ * @return {[type]}          [description]
+ */
+exports.findUserByMobile = function(mobile, cb) {
+    console.log('user.findUserByMobile');
+    User.findOne({
+        mobile: mobile
+    }, cb);
+}
+
+/**
  * 更新用户信息
  * @param condition
  * @param userInfo
