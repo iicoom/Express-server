@@ -7,6 +7,7 @@ var ErrorCode = util.errorCode;
 var tools = util.tools;
 var noop = tools.noop;
 var YunFarmError = require('../../util/error');
+var config = require('../../config');
 
 var q = require("q");
 var _ = require('lodash');
@@ -56,9 +57,11 @@ router.post("/login", function (req, res) {
                 return q.reject(ranchUtil.generateErr(ErrorCode.User_ErrorAuth, "用户名或密码不正确"));
             }
         }).then(function (userInfo) {
+            var deferred = q.defer();
             result = userInfo;
             result.accessToken = req.sessionID || req.session.sessionID;//返回的result里竟然拿不到这个
-            //console.log(result)
+            deferred.resolve(result);
+            return deferred.promise;
         }).catch(function (err) {
             error = err;
         }).finally(function () {
@@ -66,11 +69,12 @@ router.post("/login", function (req, res) {
         });
 })
 
-/*带密码错误拦截的登录*/
+/*登录 带密码错误拦截的*/
 router.post("/signin", function(req, res, next){
     var mobile = req.body.mobile;
     var password = req.body.password;
     var now = _.now();
+    var client_ip = ranchUtil.getClientIP(req);
 
     var errorMsg;
     errorMsg || mobile || (errorMsg = "用户名不能为空");
@@ -104,7 +108,6 @@ router.post("/signin", function(req, res, next){
         .then(function (user) {
              // 用户不存在
             if (!user) throw new YunFarmError('1009', '用户名或密码错误。');
-            console.log(user)
             var passhash = tools.sha256(password + user.salt);
             // 密码错误
             if (user.password !== passhash) {
@@ -132,8 +135,10 @@ router.post("/signin", function(req, res, next){
                 is_binding_verify: user.is_binding_verify,
                 is_set_pay_password: user.is_set_pay_password
             })
+
         })
         .catch(next);
+        //session信息并没有存起来，，，fuck
 })
 
 
