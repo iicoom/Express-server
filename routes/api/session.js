@@ -70,11 +70,12 @@ router.post("/login", function (req, res) {
 })
 
 /*登录 带密码错误拦截的*/
-router.post("/signin", function(req, res, next){
+router.post("/signin", function(req, res){
     var mobile = req.body.mobile;
     var password = req.body.password;
     var now = _.now();
     var client_ip = ranchUtil.getClientIP(req);
+    var error,result;
 
     var errorMsg;
     errorMsg || mobile || (errorMsg = "用户名不能为空");
@@ -122,9 +123,21 @@ router.post("/signin", function(req, res, next){
             if (!!user.disabled) throw new YunFarmError('1010', '账号已冻结。');
             if (!!user.unsubscribe) throw new YunFarmError('', '账号已注销。');
 
-            return user;
+            return q.resolve(user);
+        })
+        .then(function (user){
+            var deferred = q.defer();
+            deferred.resolve(user);
+            return deferred.promise;
+        })
+        .catch(function(error){
+            console.error(error);
+            
         })
         .then(function (user) {
+            //添加session
+            req.session.userInfo = user;
+            
             var token = req.sessionID;
             res.json({
                 token: token,
@@ -135,10 +148,8 @@ router.post("/signin", function(req, res, next){
                 is_binding_verify: user.is_binding_verify,
                 is_set_pay_password: user.is_set_pay_password
             })
-
         })
-        .catch(next);
-        //session信息并没有存起来，，，fuck
+
 })
 
 
