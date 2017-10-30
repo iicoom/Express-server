@@ -42,6 +42,7 @@ router.post("/login", function (req, res) {
     var qAuthUserInfo = q.nbind(userService.authUserInfo);
     var qUserLoginInit = q.nbind(userService.userLoginInit);
 
+    //查询条件为loginname，role_type
     qAuthUserInfo(loginname, password, role_type)
         .then(function (userInfo) {
             //console.log(userInfo)

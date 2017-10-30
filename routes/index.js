@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var auth = require('../middleware/auth');
 
 var mongoose = require('mongoose');
 var q = require("q");
@@ -29,5 +30,11 @@ promise.then(function(db){
 
 router.use('/users', require('./api/user'));
 router.use('/session', require('./api/session'));
+router.use('/activity', require('./activity'));
+//Another example of this is white-listed “global” functionality. 
+//Here the example is much like before, but it only restricts paths prefixed with “/api”:
+router.all('/diudiu/*', auth.loginRequired([1,2,3]), function(req,res){
+	res.send('hello world 刘奶奶')
+});
 
 module.exports = router;

@@ -47,9 +47,12 @@ router.post('/regist',function(req,res,next){
 })
 
 //修改密码
-router.post('/resetpass',auth.loginRequired([1,2]),function(req,res){
+router.post('/resetpass',auth.loginRequired([1,2,3]),function(req,res){
 	console.log('success!')
 	res.send("hello")
+    var password = req.body.password;
+    var re_password = req.body.re_password;
+    
 })
 
 module.exports = router;

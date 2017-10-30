@@ -31,7 +31,7 @@ if (env == 'production') {
      */
     module.exports = {
         envirment_port: "8099",
-        server_port: "3000",
+        server_port: "3001",
         session_secret: 'cH38wtQAj9X672QgNUR0L7x5n1MNIh',
         cookie_max_age: 10 * 24 * 3600 * 1000,
         session_max_age: 10 * 24 * 3600,
