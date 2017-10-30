@@ -34,11 +34,34 @@ router.param('uid', function findByUid ( req, res, next, uid ) {
 });
 
  //第三方活动对接
- router.post('/add', controller.post.add);
+ router.post('/add', controller.add);
  router.post('/thirdparty',function(req,res){
  	if (err) {
  		console.log(err)
  	}
+ 	res.send('hello')
+ })
+
+
+
+
+ router.get('/search/:name/:company',function(req, res, next) {
+ 	
+ 	var condition = {};
+ 	condition.name = req.params.name;
+ 	condition.company = req.params.company;
+ 	console.log(condition)
+
+ 	res.send('hello')
+ })
+
+ router.get('/search',function(req, res, next) {
+ 	
+ 	var condition = {};
+ 	condition.name = req.query.name;
+ 	condition.company = req.query.company;
+ 	console.log(condition)
+
  	res.send('hello')
  })
 
