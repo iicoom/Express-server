@@ -14,7 +14,7 @@ var express = require('express')
 	, controller = require('../../controller/activity/thirdparty')
 	, service = require('../../service/activity/thirdparty')
 
-
+//凡是路径中有uid参数的额路由都会经过这里,然后根据uid查出活动信息，放到req.thirdParty上
 router.param('uid', function findByUid ( req, res, next, uid ) {
 	req.check('uid', '第三方活动 UID不能为空').notEmpty();
 	var errors = req.validationErrors();
@@ -33,14 +33,13 @@ router.param('uid', function findByUid ( req, res, next, uid ) {
 	});
 });
 
- //第三方活动对接
- router.post('/add', controller.post.add);
- router.post('/thirdparty',function(req,res){
- 	if (err) {
- 		console.log(err)
- 	}
- 	res.send('hello')
- })
+//第三方活动对接
+router.post('/add', controller.post.add);
+// router.get('/:uid', controller.get.findByUid);
+// router.get('/', controller.findTPList);
+// router.put('/:uid', controller.edit);
+// router.put('/:uid/status',controller.changeState);
 
+//router.use('/:uid/cdKey', require('./third_cdk'));
 
- module.exports = router;
+module.exports = router;

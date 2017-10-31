@@ -26,8 +26,8 @@ exports.post.add = function (req , res ,next) {
 	// req.check('sort', '排序值不能为空').isInt({
 	// 	min : 0
 	// });
-	req.check('valid_start_time', '活动game内容有效开始时间不是时间类型').isDate();
-	req.check('valid_over_time', '活动game内容有效结束时间不是时间类型').isDate();
+	// req.check('valid_start_time', '活动game内容有效开始时间不是时间类型').isDate();
+	// req.check('valid_over_time', '活动game内容有效结束时间不是时间类型').isDate();
 
 	req.sanitize('valid_start_time').toTimestamp();
 	req.sanitize('valid_over_time').toEndTimestamp();
