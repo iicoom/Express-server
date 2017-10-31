@@ -40,6 +40,6 @@ router.post('/add', controller.post.add);
 // router.put('/:uid', controller.edit);
 // router.put('/:uid/status',controller.changeState);
 
-//router.use('/:uid/cdKey', require('./third_cdk'));
+router.use('/parseKey', require('../activity/third_key'));
 
 module.exports = router;
