@@ -32,13 +32,51 @@ router.param('uid', function findByUid ( req, res, next, uid ) {
 	});
 });
 
+<<<<<<< HEAD
+ //第三方活动对接
+ router.post('/add', controller.add);
+ router.post('/thirdparty',function(req,res){
+ 	if (err) {
+ 		console.log(err)
+ 	}
+ 	res.send('hello')
+ })
+=======
 //第三方活动对接
 router.use('/thirdparty', require('../activity/thirdparty'));
 // router.get('/:uid', controller.get.findByUid);
 // router.get('/', controller.findTPList);
 // router.put('/:uid', controller.edit);
 // router.put('/:uid/status',controller.changeState);
+>>>>>>> eedff498775b381dcf263f9da97a791a9c388658
 
 //router.use('/parseKey', require('../activity/third_key'));
 
+<<<<<<< HEAD
+
+
+ router.get('/search/:name/:company',function(req, res, next) {
+ 	
+ 	var condition = {};
+ 	condition.name = req.params.name;
+ 	condition.company = req.params.company;
+ 	console.log(condition)
+
+ 	res.send('hello')
+ })
+
+ router.get('/search',function(req, res, next) {
+ 	
+ 	var condition = {};
+ 	condition.name = req.query.name;
+ 	condition.company = req.query.company;
+ 	console.log(condition)
+
+ 	res.send('hello')
+ })
+
+
+ module.exports = router;
+=======
 module.exports = router;
+>>>>>>> eedff498775b381dcf263f9da97a791a9c388658
