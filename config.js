@@ -42,6 +42,11 @@ if (env == 'production') {
             //host: '101.201.197.163',
             host: '127.0.0.1',
             //auth_pass: 'eGd3cEn38tYCQiDBzx7PTWwO'
-        }
+        },
+        // logServer: {
+        //     host: 'log4js1.logserver.aliyun.yunfarm.net',
+        //     port: 33333
+        // }
+        log_dir: __dirname + '/logs',
     }
 }

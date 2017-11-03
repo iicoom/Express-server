@@ -17,6 +17,11 @@ var Third = new Schema ({
         select: true,
         comment: '活动内容,如跳转页面链接 '
     },
+    favour_uid: {
+        type: Number,
+        required: true,
+        comment: '什么鬼？ '
+    },
     status: {
         type: Number,
         select: true,

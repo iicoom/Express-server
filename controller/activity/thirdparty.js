@@ -5,13 +5,11 @@
 
 var _ = require('lodash')
 	, Q = require('q')
-	, service = require('../../service/activity/thirdparty')
-	, YunFarmError = require('../../util/error');
-	/*****************************
+	, Third = require('../../service/activity/thirdparty')
+	, YunFarmError = require('../../util/error')
 	, log = require('../../libs/log')
-
-	, logger = log.getLogger("activity-thirdparty");
-	*************************************/
+	, logger = log.getLogger("activity-thirdparty")
+	, debug = require('debug')('activity-thirdparty');
 
 exports.post = {};
 exports.post.add = function (req , res ,next) {
@@ -50,7 +48,7 @@ exports.post.add = function (req , res ,next) {
 	addInfo = reqBody;
 	addInfo.uid = id;
 	console.log(addInfo);
-	Q.nfcall(service.save,addInfo)
+	Q.nfcall(Third.save,addInfo)
 		.then(function (result) {
 			console.log(result);
 			return res.json(result);
@@ -58,4 +56,44 @@ exports.post.add = function (req , res ,next) {
 		.catch( function (err) {
 			return next(err);
 		})
+}
+
+exports.getThirdList = function (req , res ,next) {
+
+	var order_goods = [
+		{'favour_uid':'1234abc','bbj':'这个略屌'},
+		{'favour_uid':'5678bcd','jjb':'这个略掉'},
+		{'favour_uid':'','jjb':'这个略掉'},
+		{'favour_uid':'5678bcd','jjb':'这个重复的滤掉'},
+	]
+	//console.log(_.map(order_goods,'favour_uid'))
+	var favour_uid = _.uniq(_.compact(_.map(order_goods,'favour_uid')));
+    var now = _.now();
+
+    Q.resolve()
+    .then(function(){
+        if (favour_uid && favour_uid.length > 0) {
+            var condition = {
+                    favour_uid : {$in: favour_uid},
+                    status: 1,
+                    valid_start_time: {$lte: now},
+                    valid_over_time: {$gte: now}
+            }
+            console.log(debug)
+            logger.debug('query info ====');
+            return Q.nfcall(Third.find,condition)
+        }
+        return Q.reject('next')
+    })
+    .then(function (thirdInfo) {
+        if (thirdInfo) {
+            logger.debug('========send_message is =====', message );
+            rc.publish("send_message", JSON.stringify(thirdInfo));
+        }
+        return res.json(thirdInfo);
+    })
+    .catch(function (err) {
+        return fn && fn(err)
+    });
+
 }
