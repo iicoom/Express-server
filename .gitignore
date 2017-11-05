@@ -62,4 +62,4 @@ typings/
 # remove rdb
 *.rdb
 
-.idea/*
+*/.idea
