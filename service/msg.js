@@ -2,6 +2,7 @@
 
 var Msg = require("../model/msg");
 var Q = require("q");
+var ranchUtil = require("../util/ranchUtil")
 
 Msg.qFind = Q.nbind(Msg.find,Msg);
 Msg.qUpdate = Q.nbind(Msg.update,Msg);
@@ -25,6 +26,7 @@ exports.sendMsg = function(msg,cb){
 }
 
 // 发送系统消息
+
 exports.sendSystemMsg = function (type, userId, content, cb) {
   var msg = {};
   msg.type = type || 0;

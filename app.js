@@ -10,8 +10,7 @@ var session = require('express-session');
 var redis = require('./service/redis');
 var RedisStore = require('connect-redis')(session);
 var logger = require('morgan');
-
-mongoose.Promise = require('q').Promise;
+require('./redis_subscribe');
 
 
 app.use(favicon(__dirname + '/public/images/favicon.png'));
@@ -41,23 +40,23 @@ app.use(function(req,res,next){
     }
 });
 
-//连接Redis数据库
-// var rc = redis.getRedisClient(config.redis);
-// app.use(session({
-//     secret: config.session_secret,
-//     rolling: true,
-//     resave: false,
-//     saveUninitialized: false,
-//     name: 'token',
-//     cookie: {
-//         maxAge: config.cookie_max_age  //毫秒
-//     },
-//     store: new RedisStore({
-//         prefix: "sid:",
-//         client: rc,
-//         ttl: config.session_max_age // 过期时间
-//     })
-// }));
+// 连接Redis数据库
+var rc = redis.getRedisClient(config.redis);
+app.use(session({
+    secret: config.session_secret,
+    rolling: true,
+    resave: false,
+    saveUninitialized: false,
+    name: 'token',
+    cookie: {
+        maxAge: config.cookie_max_age  //毫秒
+    },
+    store: new RedisStore({
+        prefix: "sid:",
+        client: rc,
+        ttl: config.session_max_age // 过期时间
+    })
+}));
 
 app.use(logger())
    .use(require('./middleware/validator')())

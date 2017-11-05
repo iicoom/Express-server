@@ -1,9 +1,12 @@
 'use strict'
 
 var q = require("q");
+var util = require('../util');
+var tools = util.tools;
 var User = require("../model/user");
 User.qCreate = q.nbind(User.create, User);
-User.qFind = q.nbind(User.findOne, User);
+User.qFindOne = q.nbind(User.findOne, User);
+User.qFind = q.nbind(User.find, User);
 User.qUpdate = q.nbind(User.update, User);
 
 
@@ -14,6 +17,7 @@ User.qUpdate = q.nbind(User.update, User);
  */
 exports.addUser = function(userInfo, cb) {
     console.log('user.addUser');
+    console.log(User.create)
     User.qCreate(userInfo)
         .then(function(userInfo) {
             // AccountService.initAccount(userInfo._id.toHexString());
@@ -31,18 +35,19 @@ exports.addUser = function(userInfo, cb) {
  * @param password
  * @param cb
  */
-exports.authUserInfo = function(loginName, password, role_type, cb) {
+exports.authUserInfo = function(mobile, password, role_type, cb) {
     console.log('user.authUserInfo');
-    User.qFind({
-            mobile: loginName,
-            role_type: role_type
+    User.qFindOne({
+            mobile: mobile,
+            //role_type: role_type
         })
         .then(function(userInfo) {
             var err = null;
             if (userInfo) {
-                //var passwordHash = sha256(password + userInfo.salt);
-                if(userInfo.password !== password) {
-                  userInfo = null;
+                var passwordHash = tools.sha256(password + userInfo.salt);
+                if(userInfo.password !== passwordHash) {
+                    return q.reject('密码错误！')
+                    userInfo = null;
                 }
             }
             cb && cb(err, userInfo);
@@ -159,6 +164,16 @@ exports.userLoginInit = function(session, user_id, cb) {
         });
 }
 
+/*查询用户列表*/
+exports.searchUserList = function (condition, cb) {
+    console.log('user.searchUserList');
+    User.qFind(condition)
+        .then(function(user){
+            cb && cb(null, user);
+        }).catch(function(err) {
+            cb && cb(err);
+        })
+}
 /**
  * 查询用户详情
  * @param _id
@@ -166,7 +181,7 @@ exports.userLoginInit = function(session, user_id, cb) {
  */
 exports.getUserInfo = function(_id, cb) {
     console.log('user.getUserInfo');
-    User.qFind({
+    User.qFindOne({
             _id: _id
         })
         .then(function(user) {

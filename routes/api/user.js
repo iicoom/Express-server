@@ -19,7 +19,7 @@ router.post('/regist',function(req,res,next){
     var re_password = req.body.re_password;
 
     var errorMsg;
-    errorMsg || mobile || (errorMsg = "用户名不能为空");
+    errorMsg || mobile || (errorMsg = "手机号不能为空");
     errorMsg || ranchUtil.testPhone(mobile) || (errorMsg = "手机号格式不正确");
     errorMsg || password || (errorMsg = "密码不能为空");
     errorMsg || re_password || (errorMsg = "确认密码不能为空");
@@ -44,6 +44,21 @@ router.post('/regist',function(req,res,next){
     .then(function(registUserInfo){
         res.send(registUserInfo)
     })
+})
+
+//获取用户列表
+router.get('/userlist',function(req,res){
+
+    var condition = {};
+    // noinspection JSAnnotator
+    //req.query.mobile && condition.mobile = req.query.mobile;
+    var qSearchUser = q.nbind(userService.searchUserList,userService);
+    qSearchUser(condition)
+        .then(function (userListInfo) {
+            console.log(userListInfo)
+            res.send(userListInfo)
+        })
+
 })
 
 //修改密码

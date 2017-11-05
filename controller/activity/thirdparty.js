@@ -5,27 +5,30 @@
 
 var _ = require('lodash')
 	, Q = require('q')
-	, Third = require('../../service/activity/thirdparty')
+	, ThirdPartyService = require('../../service/activity/thirdparty')
 	, YunFarmError = require('../../util/error')
 	, log = require('../../libs/log')
 	, logger = log.getLogger("activity-thirdparty")
-	, debug = require('debug')('activity-thirdparty');
+	, debug = require('debug')('activity-thirdparty')
+	, redis = require("redis")
+	, config = require('../../config')
+	, rc = config.redis
+    , client = redis.createClient(rc.port, rc.host, rc);
 
-exports.post = {};
+
+/*创建thirdparty*/
 exports.add = function (req , res ,next) {
-	console.log('woako')
 	req.check('name', '活动名称不能为空' ).notEmpty();
-	req.check('company', '第三方公司名称不能为空' ).notEmpty();
-	// req.check('favour_uid', '电商活动UID不能为空' ).notEmpty();
-	// req.check('type', '活动类型不能为空且为number类型' ).notEmpty();
-	// req.check('content', '活动内容不能为空' ).notEmpty();
-	// req.check('company', '首页活动url不能为空且只能为字母').notEmpty().isAscii();
+	//req.check('company', '第三方公司名称不能为空' ).notEmpty();
+	req.check('favour_uid', '电商活动UID不能为空' ).notEmpty();
+	req.check('content', '活动内容不能为空' ).notEmpty();
+	//req.check('company', '首页活动url不能为空且只能为字母').notEmpty().isAscii();
 
 	// req.check('sort', '排序值不能为空').isInt({
 	// 	min : 0
 	// });
-	// req.check('valid_start_time', '活动game内容有效开始时间不是时间类型').isDate();
-	// req.check('valid_over_time', '活动game内容有效结束时间不是时间类型').isDate();
+	//req.check('valid_start_time', '活动game内容有效开始时间不是时间类型').isDate();
+	//req.check('valid_over_time', '活动game内容有效结束时间不是时间类型').isDate();
 
 	// req.sanitize('valid_start_time').toTimestamp();
 	// req.sanitize('valid_over_time').toEndTimestamp();
@@ -48,9 +51,17 @@ exports.add = function (req , res ,next) {
 	addInfo = reqBody;
 	//addInfo.uid = id;
 	console.log(addInfo);
-	Q.nfcall(Third.save,addInfo)
+    // var qAddThird = Q.nbind(ThirdPartyService.addThirdParty,ThirdPartyService);
+    // qAddThird(addInfo)
+    //     .then(function (result) {
+    //         console.log(result);
+    //         return res.json(result);
+    //     })
+    //     .catch( function (err) {
+    //         return next(err);
+    //     })
+    Q.nfcall(ThirdPartyService.addThirdParty,addInfo)
 		.then(function (result) {
-			console.log(result);
 			return res.json(result);
 		})
 		.catch( function (err) {
@@ -79,18 +90,16 @@ exports.getThirdList = function (req , res ,next) {
                     valid_start_time: {$lte: now},
                     valid_over_time: {$gte: now}
             }
-            console.log(debug)
-            logger.debug('query info ====');
-            return Q.nfcall(Third.find,condition)
+            return Q.nfcall(ThirdPartyService.searchThirdParty,condition)
         }
         return Q.reject('next')
     })
     .then(function (thirdInfo) {
         if (thirdInfo) {
-            logger.debug('========send_message is =====', message );
-            rc.publish("send_message", JSON.stringify(thirdInfo));
+            logger.debug('========send_message is =====', thirdInfo );
+            client.publish("send_message", JSON.stringify(thirdInfo));
         }
-        return res.json(thirdInfo);
+        res.send(thirdInfo);
     })
     .catch(function (err) {
         return fn && fn(err)

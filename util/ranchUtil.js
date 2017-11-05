@@ -1,6 +1,7 @@
 'use strict'
 
 var ErrorCode = require("./errorCode");
+var _ = require('lodash')
 module.exports = exports;
 
 
@@ -134,3 +135,11 @@ exports.deleteModelInfo = function(model) {
 exports.getClientIP = function(req) {
     return req.headers['x-real-ip'] || req.headers['X-Real-Ip'] ||req.headers['X-Forwarded-For'] || req.headers['x-forwarded-for'] || req.ip;
 };
+
+/**
+ * 获取当前时间
+ */
+exports.getNowTime = function(){
+    var now = _.now();
+    return now;
+}

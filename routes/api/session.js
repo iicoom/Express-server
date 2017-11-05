@@ -20,13 +20,13 @@ var userService = require("../../service/user");
  */
 router.post("/login", function (req, res) {
 
-    var role_type = req.body.role_type;
-    var loginname = req.body.loginname;
+    var mobile = req.body.mobile;
     var password = req.body.password;
+    var role_type = req.body.role_type;
 
     var errorMsg;
-    errorMsg || loginname || (errorMsg = "用户名不能为空");
-    errorMsg || ranchUtil.testPhone(loginname) || (errorMsg = "手机号格式不正确");
+    errorMsg || mobile || (errorMsg = "用户名不能为空");
+    errorMsg || ranchUtil.testPhone(mobile) || (errorMsg = "手机号格式不正确");
     errorMsg || password || (errorMsg = "密码不能为空");
     if (errorMsg) {
         return ranchUtil.doResult(res, ranchUtil.generateErr(ErrorCode.User_ErrorParams, errorMsg));
@@ -36,16 +36,15 @@ router.post("/login", function (req, res) {
     req.session['user-agent']=req.headers['user-agent'];
     var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
     req.session.ip=ip;
-    //console.log(req.session)
 
     var error, result;
     var qAuthUserInfo = q.nbind(userService.authUserInfo);
     var qUserLoginInit = q.nbind(userService.userLoginInit);
 
     //查询条件为loginname，role_type
-    qAuthUserInfo(loginname, password, role_type)
+    qAuthUserInfo(mobile, password, role_type)
         .then(function (userInfo) {
-            //console.log(userInfo)
+            console.log(userInfo)
             if (userInfo) {
                 return qUserLoginInit(req.session, userInfo._id.toString())
                     .then(function (userInfo) {

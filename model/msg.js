@@ -11,4 +11,5 @@ var MsgSchema = new Schema({
     read: {type: Boolean},//阅读状态0：未读1:已读
     other_info:{type:Object}//其他信息
 });
-mongoose.model('Msg',MsgSchema);
+
+module.exports = mongoose.model('Msg',MsgSchema);

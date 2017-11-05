@@ -27,12 +27,9 @@ router.post('/', function(req, res) {
 })
 
 //添加thirdparty活动
-router.post('/add', Third.post.add)
+router.post('/add', Third.add)
 
-/*
- * 分页查询列表信息
- */
-//传order_goods数组进来
+//分页查询第三方活动 传order_goods数组进来
 router.get('/getThirdList', Third.getThirdList)
 
 module.exports = router;
