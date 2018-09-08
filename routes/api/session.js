@@ -44,7 +44,7 @@ router.post("/login", function (req, res) {
     //查询条件为loginname，role_type
     qAuthUserInfo(mobile, password, role_type)
         .then(function (userInfo) {
-            console.log(userInfo)
+            console.log(userInfo);
             if (userInfo) {
                 return qUserLoginInit(req.session, userInfo._id.toString())
                     .then(function (userInfo) {

@@ -10,10 +10,10 @@ var q = require("q");
 var tools = util.tools;
 var randomstring = require("randomstring");
 var YunFarmError = require('../../util/error');
+var constant = require('../../util/constant');
 
 
 router.post('/regist',function(req,res,next){
-	var role_type = req.body.role_type;
     var mobile = req.body.mobile;
     var password = req.body.password;
     var re_password = req.body.re_password;
@@ -35,7 +35,7 @@ router.post('/regist',function(req,res,next){
     var userInfo = {};
     var salt = randomstring.generate(24);
     var passhash = tools.sha256(password + salt);
-    userInfo.role_type = role_type;
+    userInfo.role_type = req.body.role_type || constant.RoleType.User;
     userInfo.mobile = mobile;
     userInfo.password = passhash;
     userInfo.salt = salt;
