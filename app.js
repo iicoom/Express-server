@@ -59,7 +59,7 @@ app.use(session({
 }));
 
 app.use(logger())
-   .use(require('./middleware/validator')())
+   .use(require('./middleware/validator')());
 
 
 //路由需要放在bodyParser下边
@@ -67,7 +67,7 @@ app.use('/api', api);
 
 //catch 404 and forward to error handler
 app.use(function(req, res, next) {
-	console.log(req.originalUrl)
+	console.log(req.originalUrl);
     var err = new YunFarmError('1001', 'Not Found', req.originalUrl || req.url);
     next(err);
 });
@@ -104,4 +104,4 @@ console.dir(app.get('env'));
 
 var server = app.listen(app.get('port'),function(){
 	console.log('Express server listening on port ' + server.address().port)
-})
+});

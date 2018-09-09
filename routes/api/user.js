@@ -1,14 +1,14 @@
 var express = require('express');
 var router = express.Router();
 var auth = require('../../middleware/auth');
-var userService = require('../../service/user')
+var userService = require('../../service/user');
 
 var util = require('../../util');
 var ranchUtil = util.ranchUtil;
 var ErrorCode = util.errorCode;
 var q = require("q");
 var tools = util.tools;
-var randomstring = require("randomstring");
+var randomstring = require('randomstring');
 var YunFarmError = require('../../util/error');
 var constant = require('../../util/constant');
 
@@ -44,7 +44,7 @@ router.post('/regist',function(req,res,next){
     .then(function(registUserInfo){
         res.send(registUserInfo)
     })
-})
+});
 
 //获取用户列表
 router.get('/userlist',function(req,res){
@@ -55,19 +55,19 @@ router.get('/userlist',function(req,res){
     var qSearchUser = q.nbind(userService.searchUserList,userService);
     qSearchUser(condition)
         .then(function (userListInfo) {
-            console.log(userListInfo)
+            console.log(userListInfo);
             res.send(userListInfo)
         })
 
-})
+});
 
 //修改密码
 router.post('/resetpass',auth.loginRequired([1,2,3]),function(req,res){
-	console.log('success!')
-	res.send("hello")
+	console.log('success!');
+	res.send("hello");
     var password = req.body.password;
     var re_password = req.body.re_password;
     
-})
+});
 
 module.exports = router;

@@ -21,7 +21,7 @@ var getRedisClient = exports.getRedisClient = function(rcc) {
     });
 
     return rc;
-}
+};
 
 
 var rc = exports.rc = getRedisClient(config.redis);
@@ -31,7 +31,7 @@ exports.get = function(key, cb) {
     console.log('redis.get');
     if (!cb) cb = noop;
     rc.get(key, cb);
-}
+};
 
 exports.getObject = function(key, cb) {
     console.log('redis.getObject');
@@ -49,7 +49,7 @@ exports.getObject = function(key, cb) {
             cb();
         }
     })
-}
+};
 
 
 /**
@@ -76,7 +76,7 @@ exports.set = exports.put = function(key, data, expire, cb) {
             cb();
         }
     });
-}
+};
 
 exports.setObject = exports.putObject = function(key, data, expire, cb) {
     if (!expire) {
