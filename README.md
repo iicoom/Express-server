@@ -1,5 +1,5 @@
 # Express-server
-## 框架级别
+### 框架级别
 * 项目运行环境配置（环境差异配置）
 
 * 开发环境热更新
@@ -27,13 +27,49 @@
 * 项目的运维（PM2）
 - - -
 
-### 目运行环境配置
-### 开发环境热更新
-### 项目框架分层
-### 数据库选型
-### 项目的运维
+#### 目运行环境配置
+#### 开发环境热更新
+#### 项目框架分层
+#### 数据库选型
+#### 项目的运维
+[PM2](https://pm2.io/doc/en/runtime/guide/process-management/)
 
-## 业务功能级别
+PM2 is a process kept in the background, a daemon, that takes care of all your running processes.
+
+We’ll learn how to manage process with PM2 and discover a key concept : the process list.
+
+The process list
+The process list is where all running applications are registered.
+
+Manage your process list in a few commands:
+```$xslt
+# start and add a process to your list
+pm2 start app.js
+
+# show your list
+pm2 ls
+
+# stop and delete a process from the list
+pm2 delete app
+```
+Default name in the process list is the name of the script without his extension. Use --nameor -n to change.
+
+Routine
+Once setup your process list, every actions are done with the process name.
+```$xslt
+# kill the process but keep it in the process list
+pm2 stop app
+
+# start the process again
+pm2 start app
+
+# both stop and start
+pm2 restart app
+
+# Multiple app can be specified at once:
+pm2 restart app1 app2 app3
+```
+### 业务功能级别
 * 注册
 
 * 登录
