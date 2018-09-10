@@ -1,5 +1,5 @@
 var path = require('path');
-var env = process.env.NODE_ENV; // 修改环境变量从 process 中获取 ,默认好像是development
+var env = process.env.NODE_ENV; // 修改环境变量从 process 中获取 ,默认是development
 
 if (env == 'production') {
 	/**
@@ -11,7 +11,12 @@ if (env == 'production') {
         session_secret: 'cH38wtQAj9X672QgNUR0L7x5n1MNIh',
         cookie_max_age: 10 * 24 * 3600 * 1000,
         session_max_age: 10 * 24 * 3600,
-        db: 'mongodb://Ranch:yunfarm_000@master.mongodb.aliyun.yunfarm.net/Ranch'
+        db: 'mongodb://username:password@master.mongodb.aliyun.mybiubiu.net/Fuck',
+        redis: {
+          port: 6379,
+          host: '127.0.0.1',
+          //auth_pass: 'eGd3cEn38tYCQiDBzx7PTWwOp'
+        }
     }
 } else if (env == 'test') {
 	/**
@@ -23,7 +28,7 @@ if (env == 'production') {
         session_secret: 'cH38wtQAj9X672QgNUR0L7x5n1MNIh',
         cookie_max_age: 10 * 24 * 3600 * 1000,
         session_max_age: 10 * 24 * 3600,
-        db: 'mongodb://Ranch:yunfarm_000@master.mongodb.aliyun.yunfarm.net/Ranch'
+        db: 'mongodb://username:password@master.mongodb.aliyun.mybiubiu.net/Fuck'
     }
 } else{
 	/**
@@ -35,7 +40,7 @@ if (env == 'production') {
         session_secret: 'cH38wtQAj9X672QgNUR0L7x5n1MNIh',
         cookie_max_age: 10 * 24 * 3600 * 1000,
         session_max_age: 10 * 24 * 3600,
-        //db: 'mongodb://Ranch:yunfarm_000@master.mongodb.aliyun.yunfarm.net/Ranch'
+        // db: 'mongodb://username:password@master.mongodb.aliyun.mybiubiu.net/Fuck',
         db: '127.0.0.1:27017/Express-api',
         redis: {
             port: 6379,

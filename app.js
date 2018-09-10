@@ -99,7 +99,8 @@ if (app.get('env') === 'development') {
 
 
 app.set('port',process.env.PORT || config.server_port);
-console.dir(app.get('env'));
+// console.dir('Node-env:' + app.get('env'));
+console.log('Node Environment:' + app.get('env'));
 
 
 var server = app.listen(app.get('port'),function(){

@@ -4,13 +4,15 @@
 
 * 开发环境热更新
 
-* ES6/ES7 babel 转码
+* ES6/ES7 babel 转码（暂不考虑）
 
 * 语法检测工具（Eslint）
 
-* 日志管理
+* 日志管理(等级、日期格式、切割、保留时间)
 
 * 项目框架分层（middleware、model、service、routes、controller、util）
+
+* 接口访问权限
 
 * 异常的处理（抛出 端的返回 错误状态的定义）
 

@@ -2,7 +2,7 @@
 
 var ErrorCode = require("./errorCode");
 // var _ = require('lodash');
-var constant = require('./constants');
+var constant = require('./constant');
 module.exports = exports;
 
 

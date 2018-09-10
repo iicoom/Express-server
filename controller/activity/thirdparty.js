@@ -13,7 +13,7 @@ var _ = require('lodash')
 	, redis = require("redis")
 	, config = require('../../config')
 	, rc = config.redis
-    , client = redis.createClient(rc.port, rc.host, rc);
+	, client = redis.createClient(rc.port, rc.host, rc);
 
 
 /*创建thirdparty*/
@@ -67,7 +67,7 @@ exports.add = function (req , res ,next) {
 		.catch( function (err) {
 			return next(err);
 		})
-}
+};
 
 exports.getThirdList = function (req , res ,next) {
 
@@ -75,8 +75,8 @@ exports.getThirdList = function (req , res ,next) {
 		{'favour_uid':'1234abc','bbj':'这个略屌'},
 		{'favour_uid':'5678bcd','jjb':'这个略掉'},
 		{'favour_uid':'','jjb':'这个略掉'},
-		{'favour_uid':'5678bcd','jjb':'这个重复的滤掉'},
-	]
+		{'favour_uid':'5678bcd','jjb':'这个重复的滤掉'}
+	];
 	//console.log(_.map(order_goods,'favour_uid'))
 	var favour_uid = _.uniq(_.compact(_.map(order_goods,'favour_uid')));
     var now = _.now();
@@ -89,7 +89,7 @@ exports.getThirdList = function (req , res ,next) {
                     status: 1,
                     valid_start_time: {$lte: now},
                     valid_over_time: {$gte: now}
-            }
+            };
             return Q.nfcall(ThirdPartyService.searchThirdParty,condition)
         }
         return Q.reject('next')
@@ -105,4 +105,4 @@ exports.getThirdList = function (req , res ,next) {
         return fn && fn(err)
     });
 
-}
+};
