@@ -9,8 +9,8 @@ module.exports = {
     instances: 1,
     max_memory_restart: "1G",
     node_args: [],
-    out_file: "/mnt/log/yfarm_api/out.log",
-    error_file: "/mnt/log/yfarm_api/err.log",
+    out_file: "/mnt/log/Express-server/out.log",
+    error_file: "/mnt/log/Express-server/err.log",
     env: {
       NODE_ENV: "development"
     },

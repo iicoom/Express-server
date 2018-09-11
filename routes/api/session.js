@@ -95,7 +95,7 @@ router.post("/signin", function(req, res){
         })
         .then(function (count) {
             if (count && count > 8) {
-                console.log(count)
+                console.log(count);
                 rc.multi()
                     .del(mobile + '-login-fail') // 失败次数
                     .set(mobile + '-login-limit', now) // 登陆限制

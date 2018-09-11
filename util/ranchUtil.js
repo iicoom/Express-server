@@ -1,9 +1,9 @@
 'use strict';
 
-var ErrorCode = require("./errorCode");
+var ErrorCode = require('./errorCode');
+var Messages = require('./errorMsg');
 // var _ = require('lodash');
 var constant = require('./constant');
-module.exports = exports;
 
 
 /**
@@ -13,7 +13,7 @@ module.exports = exports;
  * @returns {string}
  */
 exports.generateRandom = function(n, collection) {
-    var res = "";
+    var res = '';
     for (var i = 0; i < n; i++) {
         var id = Math.ceil(Math.random() * (collection.length - 1));
         res += collection[id];
@@ -41,7 +41,8 @@ exports.testPhone = function(phone) {
  * @returns {*|string}
  */
 exports.getClientIP = function(req) {
-  return req.headers['x-real-ip'] || req.headers['X-Real-Ip'] ||req.headers['X-Forwarded-For'] || req.headers['x-forwarded-for'] || req.ip;
+  return req.headers['x-real-ip'] || req.headers['X-Real-Ip'] ||req.headers['X-Forwarded-For'] ||
+    req.headers['x-forwarded-for'] || req.ip;
 };
 
 /**
@@ -49,32 +50,66 @@ exports.getClientIP = function(req) {
  * @returns {number}
  */
 exports.getNowTime = function(){
-  var now = new Date().getTime();
-  return now;
+  return new Date().getTime();
 };
 
-/**
- * 抛出错误信息
- * @param errcode
- * @param errmsg
- * @returns {ResultError}
- */
-exports.generateErr = function(errcode, errmsg) {
-	var errObject = new ResultError(errcode, errmsg);
-	return errObject;
-};
 
 /**
  * 结果层错误
  * @type {exports.ResultError}
  */
 var ResultError = exports.ResultError = function(errcode, errmsg) {
-    this.errcode = errcode;
-    this.errmsg = errmsg;
+  this.errcode = errcode;
+  this.errmsg = errmsg;
 };
 ResultError.prototype.toString = function() {
-    return this.errmsg;
+  return this.errmsg;
 };
+
+/**
+* 抛出错误信息
+* @param errcode
+* @param errmsg
+* @returns {ResultError}
+*/
+exports.generateErr = function(errcode, errmsg) {
+  return new ResultError(errcode, errmsg);
+};
+
+/***************************错误分类处理************************************/
+/**
+ * 处理层错误
+ * @type {InternalError}
+ */
+var InternalError = exports.InternalError = function(errcode, errmsg) {
+  this.errcode = errcode;
+  this.errmsg = errmsg;
+};
+InternalError.prototype.toString = function() {
+  return this.errmsg;
+};
+
+/**
+ * 检测是否为结果错误
+ */
+var isResultError = exports.isResultError = function(e) {
+  return e instanceof ResultError;
+};
+
+/**
+ * 检测是否为service层错误
+ * @param e
+ */
+var isInternalError = exports.isInternalError = function(e) {
+  return e instanceof InternalError;
+};
+
+// 校验是不是自定义异常错误
+var isUserDefinedError = exports.isUserDefinedError = function(e) {
+  return (e instanceof Error && (e.name === 'WeiboPayError' || e.name === 'YunFarmError'));
+};
+/***********************错误分类处理end***********************************/
+
 
 /**
  * 输出结果函数
@@ -83,6 +118,7 @@ ResultError.prototype.toString = function() {
  * @param body
  */
 exports.doResult = function(res, error, body) {
+  var httpStatus;
   if (error) {
     console.log('--------------doResult返回错误--------------');
     console.dir(error);
@@ -100,50 +136,19 @@ exports.doResult = function(res, error, body) {
         cause: error.cause
       });
     } else {
-      error = new ResultError(ErrorCode.UnKnow_Error, "服务器错误");
+      error = new ResultError(ErrorCode.UnKnow_Error, '服务器错误');
     }
     var errCode = error.errcode;
     console.log('errcode: ' + error.errcode);
-    var httpStatus = parseInt((errCode + "").substr(0, 3));
+    httpStatus = parseInt((errCode + '').substr(0, 3));
     console.log('-----res.status(httpStatus).json(error)------');
     res.status(httpStatus).json(error);
   } else {
-    var httpStatus = parseInt((ErrorCode.Success + "").substr(0, 3));
+    httpStatus = parseInt((ErrorCode.Success + '').substr(0, 3));
     // console.log(body)
     res.status(httpStatus).json(body);
   }
 };
 
-/***************************错误分类处理************************************/
-/**
- * 处理层错误
- * @type {InternalError}
- */
-var InternalError = exports.InternalError = function(errcode, errmsg) {
-    this.errcode = errcode;
-    this.errmsg = errmsg;
-};
-InternalError.prototype.toString = function() {
-    return this.errmsg;
-};
 
-/**
- * 检测是否为结果错误
- */
-var isResultError = exports.isResultError = function(e) {
-    return e instanceof ResultError;
-};
-
-/**
- * 检测是否为service层错误
- * @param e
- */
-var isInternalError = exports.isInternalError = function(e) {
-    return e instanceof InternalError;
-};
-
-// 校验是不是自定义异常错误
-var isUserDefinedError = exports.isUserDefinedError = function(e) {
-    return (e instanceof Error && (e.name === 'WeiboPayError' || e.name === 'YunFarmError'));
-};
-/***********************错误分类处理end***********************************/
+module.exports = exports;

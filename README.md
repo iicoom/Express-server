@@ -6,13 +6,13 @@
 
 * ES6/ES7 babel 转码（暂不考虑）
 
-* 语法检测工具（Eslint）
+* 语法检测工具（ESLint, JShint）
 
 * 日志管理(等级、日期格式、切割、保留时间)
 
 * 项目框架分层（middleware、model、service、routes、controller、util）
 
-* 接口访问权限
+* 接口访问权限 接口访问频率限制
 
 * 异常的处理（抛出 端的返回 错误状态的定义）
 
@@ -27,10 +27,42 @@
 * 项目的运维（PM2）
 - - -
 
-#### 目运行环境配置
+#### 项目运行环境配置
+* 本地：package.json => development production
+
+* 服务器部署：PM2 => ecosystem.config.js
+
 #### 开发环境热更新
+* package.json => npm run dev => nodemon 修改代码热更新大大提高效率
+
+#### 语法检测工具
+* [JShint](http://jshint.com/docs/) 
+npm install --save-dev jshint
+
+In case of .jshintrc, JSHint will start looking for this file in the same directory as the file that's being linted. 
+If not found, it will move one level up the directory tree all the way up to the filesystem root.
+
+[Webstorm 下使用JShint](http://www.jetbrains.com/help/webstorm/jshint.html)
+[options](http://jshint.com/docs/options/)
+
+To enable JSHint and configure its behavior in WebStorm
+1. In the Settings/Preferences dialog (⌘,), click JavaScript under Languages and Frameworks and then click JSHint under Code Quality Tools. 
+On the JSHint that opens, select the Enable checkbox. After that all the controls on the page become available.
+
+2. From the Version drop-down list, choose the version of the tool to use. WebStorm comes bundled with version 2.9.5, which is used by default. 
+To download another version, choose it from the list.
+
+3. 也可以勾选使用本地 .jshintrc
+
+* [ESLint](http://www.jetbrains.com/help/webstorm/eslint.html)
+
 #### 项目框架分层
+
+#### 接口访问权限 接口访问频率限制
+
+
 #### 数据库选型
+
 #### 项目的运维
 [PM2](https://pm2.io/doc/en/runtime/guide/process-management/)
 
