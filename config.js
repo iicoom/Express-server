@@ -6,8 +6,7 @@ if (env == 'production') {
      * 生产环境配置的参数
      */
     module.exports = {
-        envirment_port: "8099",
-        server_port: "8090",
+        server_port: '8090',
         session_secret: 'cH38wtQAj9X672QgNUR0L7x5n1MNIh',
         cookie_max_age: 10 * 24 * 3600 * 1000,
         session_max_age: 10 * 24 * 3600,
@@ -16,7 +15,12 @@ if (env == 'production') {
           port: 6379,
           host: '127.0.0.1',
           //auth_pass: 'eGd3cEn38tYCQiDBzx7PTWwOp'
-        }
+        },
+        logServer: {
+          host: 'log4js1.logserver.aliyun.yunfarm.net',
+          port: 33333
+        },
+        log_dir: '/mnt/data/Express-server/logs',
     }
 } else if (env == 'test') {
 	/**
@@ -48,10 +52,10 @@ if (env == 'production') {
             host: '127.0.0.1',
             //auth_pass: 'eGd3cEn38tYCQiDBzx7PTWwO'
         },
-        // logServer: {
-        //     host: 'log4js1.logserver.aliyun.yunfarm.net',
-        //     port: 33333
-        // }
+        logServer: {
+            host: 'log4js1.logserver.aliyun.yunfarm.net',
+            port: 33333
+        },
         log_dir: __dirname + '/logs',
     }
 }

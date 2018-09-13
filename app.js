@@ -5,12 +5,11 @@ var config = require('./config');
 var YunFarmError = require('./util/error');
 var favicon = require('serve-favicon');
 var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
 var session = require('express-session');
 var redis = require('./service/redis');
 var RedisStore = require('connect-redis')(session);
 var logger = require('morgan');
-require('./redis_subscribe');
+// require('./redis_subscribe');
 
 
 app.use(favicon(__dirname + '/public/images/favicon.png'));
@@ -33,7 +32,7 @@ app.use(function(req,res,next){
     res.setHeader('Cache-Control', 'Cache-Control');
     res.setHeader('Content-Type', 'application/json');
     if (req.method == 'OPTIONS') {
-        res.send(200); /让options请求快速返回/
+        res.send(200); //让options请求快速返回
     }
     else {
         next();
@@ -52,7 +51,7 @@ app.use(session({
         maxAge: config.cookie_max_age  //毫秒
     },
     store: new RedisStore({
-        prefix: "sid:",
+        prefix: 'sid:',
         client: rc,
         ttl: config.session_max_age // 过期时间
     })

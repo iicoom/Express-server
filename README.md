@@ -14,7 +14,7 @@
 
 * 接口访问权限 接口访问频率限制
 
-* 异常的处理（抛出 端的返回 错误状态的定义）
+* 异常的处理（抛出 前端的返回 错误状态的定义）
 
 * 项目常量的组织方式（constant、error code message）
 
@@ -23,6 +23,8 @@
 * 数据库选型（mongodb、redis、mysql）
 
 * 代码流程控制工具（Q，Promise）
+
+* 单元测试（框架、流程）
 
 * 项目的运维（PM2）
 - - -
@@ -56,6 +58,32 @@ To download another version, choose it from the list.
 
 * [ESLint](http://www.jetbrains.com/help/webstorm/eslint.html)
 
+#### 日志管理(等级、日期格式、切割、保留时间)
+[log4js-node](https://log4js-node.github.io/log4js-node/)
+
+[Date Rolling File Appender](https://log4js-node.github.io/log4js-node/dateFile.html)
+
+API
+[configuration - log4js.configure(object || string)](https://log4js-node.github.io/log4js-node/api.html)
+Configuration objects must define at least one appender, and a default category. 
+Log4js will throw an exception if the configuration is invalid.
+
+* levels (optional, object) 
+the default values are used (ALL < TRACE < DEBUG < INFO < WARN < ERROR < FATAL < MARK < OFF - note that 
+OFF is intended to be used to turn off logging, not as a level for actual logging
+
+* appenders (object) - a map of named appenders (string) to appender definitions (object);
+ appender definitions must have a property type (string) - other properties depend on the appender type.
+
+* categories (object) - a map of named categories (string) to category definitions (object)
+Category definitions have two properties:
+
+- appenders (array of strings) - the list of appender names to be used for this category. 
+A category must have at least one appender.
+
+- level (string, case insensitive) - the minimum log level that this category will send to the appenders.
+ For example, if set to ‘error’ then the appenders will only receive log events of level ‘error’, 
+‘fatal’, ‘mark’ - log events of ‘info’, ‘warn’, ‘debug’, or ‘trace’ will be ignored.
 #### 项目框架分层
 
 #### 接口访问权限 接口访问频率限制
@@ -107,5 +135,9 @@ pm2 restart app1 app2 app3
 * 登录
 
 * 队列、计划任务、发布订阅
+
+* 统计发送邮件系统
+
+* 数据库数据统计（统计间隔时间的控制）
 
 

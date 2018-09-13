@@ -1,10 +1,10 @@
-var redis = require("redis");
+var redis = require('redis');
 var config = require('./config');
 var rc = config.redis;
 var client = redis.createClient(rc.port, rc.host, rc);
 var msgService = require('./service/msg');
 var log = require('./libs/log');
-var logger = log.getLogger("activity-thirdparty");
+var logger = log.getLogger('activity-thirdparty');
 var q = require('q');
 
 client.on('message', function (channel, message) {

@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 /**
  * 错误码规则：httpStatus+错误类别

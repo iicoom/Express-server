@@ -11,7 +11,7 @@
   "undef": true,
   "unused": true,
   "trailing": true,
-  "maxlen": 100,
+  "maxlen": 120,
   "nomen": true,
   "passfail": true,
   "asi": true,
