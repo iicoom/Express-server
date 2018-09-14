@@ -34,7 +34,7 @@ ErrorCode.User_ErrorAuth = 403001;//认证错误
 ErrorCode.User_ErrorParams = 403003; //参数错误
 ErrorCode.User_ErrorNotFind = 403004; //未找到相关资源
 ErrorCode.User_ErrorVerifyCode = 403005; //验证码错误
-ErrorCode.User_ErrorUnAuth = 401001; //未认证
+ErrorCode.User_ErrorUnAuth = 401001; // 权限不足
 
 //请求次数限制
 ErrorCode.User_ErrorRequestLimit = 403015; //请求次数限制

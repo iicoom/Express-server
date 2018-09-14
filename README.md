@@ -12,7 +12,7 @@
 
 * 项目框架分层（middleware、model、service、routes、controller、util）
 
-* 接口访问权限 接口访问频率限制
+* 接口访问权限 接口访问频率限制(接口安全防护)
 
 * 异常的处理（抛出 前端的返回 错误状态的定义）
 
@@ -84,12 +84,17 @@ A category must have at least one appender.
 - level (string, case insensitive) - the minimum log level that this category will send to the appenders.
  For example, if set to ‘error’ then the appenders will only receive log events of level ‘error’, 
 ‘fatal’, ‘mark’ - log events of ‘info’, ‘warn’, ‘debug’, or ‘trace’ will be ignored.
+
 #### 项目框架分层
 
-#### 接口访问权限 接口访问频率限制
+#### 接口访问权限 接口访问频率限制(接口安全防护)
+* loginRequire
 
+* requestLimit
 
 #### 数据库选型
+
+#### 代码流程控制工具（Q，Promise）
 
 #### 项目的运维
 [PM2](https://pm2.io/doc/en/runtime/guide/process-management/)
@@ -139,5 +144,7 @@ pm2 restart app1 app2 app3
 * 统计发送邮件系统
 
 * 数据库数据统计（统计间隔时间的控制）
+
+* Excel导入、导出 
 
 

@@ -13,7 +13,6 @@ var ErrorCode = util.errorCode;
 var ranchUtil = util.ranchUtil;
 var auth = require('../../service/auth');
 var log = require('../../libs/log');
-// var logger = log.getLogger();
 var logger = log.getLogger('receiver');
 
 
