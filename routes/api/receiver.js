@@ -87,8 +87,8 @@ router.post('/', auth.loginRequire(RoleType.User), function (req, res) {
 });
 
 router.get('/', /*auth.loginRequire(RoleType.Administor),*/ function(req, res) {
-  logger.info('come into get router...');
   logger.debug('come into get router...i am debug');
+  logger.info('come into get router...');
   logger.fatal('come into get router...i am fatal');
   var skip = req.query.skip || 0;
   var limit = req.query.limit || 10;

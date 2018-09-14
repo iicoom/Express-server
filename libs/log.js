@@ -53,9 +53,9 @@ if (process.env.NODE_ENV === 'production') {
 
     logConfig = {
         out: { type: 'stdout' },
-        err: { type: 'stderr' },
+        // err: { type: 'stderr' },
         receiver: {
-            type: 'dateFile',
+            type: 'file',
             filename: path.join( logDir, '/receiver.log' ),
             pattern: '.yyyy-MM-dd',
             maxLogSize: 10485760,
@@ -74,14 +74,13 @@ log4js.configure({
     //日志的分级,不同级别的日志在控制台中采用不同的颜色，比如 error 通常是红色的
     categories: {
         default: { appenders: ['out'], level: 'info' },
-        receiver: { appenders: ['receiver'], level: 'debug' }
+        receiver: { appenders: ['receiver'], level: 'info' }
     }
 });
 
 module.exports = log4js;
 
 // var logger = log4js.getLogger();
-// logger.info('Server Start. At: ' + new Date());
 // logger.trace('Entering cheese testing');
 // logger.debug('Got cheese.');
 // logger.info('Cheese is Gouda.');
