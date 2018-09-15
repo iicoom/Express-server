@@ -62,7 +62,7 @@ router.get('/userlist',function(req,res){
 });
 
 //修改密码
-router.post('/resetpass',auth.loginRequired([1,2,3]),function(req,res){
+router.post('/resetpass',auth.loginRequire([1,2,3]),function(req,res){
 	console.log('success!');
 	res.send("hello");
     var password = req.body.password;

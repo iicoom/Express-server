@@ -1,22 +1,25 @@
 # Express-server
 ### 框架级别
-* 项目运行环境配置（环境差异配置）
+* 项目运行环境配置（环境差异配置）   completed
 
-* 开发环境热更新
+* 开发环境热更新                   completed
 
 * ES6/ES7 babel 转码（暂不考虑）
 
 * 语法检测工具（ESLint, JShint）
 
-* 日志管理(等级、日期格式、切割、保留时间)
+* 日志管理(等级、日期格式、切割、保留时间)    completed
 
-* 项目框架分层（middleware、model、service、routes、controller、util）
+* 项目框架分层
+[middleware、model、service、
+ routes、controller、util]
 
-* 接口访问权限 接口访问频率限制(接口安全防护)
+* 接口访问权限 接口访问频率限制(接口安全防护)  completed
 
-* 异常的处理（抛出 前端的返回 错误状态的定义）
+* 异常的处理（抛出 前端的返回 错误状态的定义）  completed
 
-* 项目常量的组织方式（constant、error code message）
+* 项目常量的组织方式                        completed
+[constant、error code message]
 
 * 跨域的处理方式
 
@@ -26,7 +29,7 @@
 
 * 单元测试（框架、流程）
 
-* 项目的运维（PM2）
+* 项目的运维（PM2）             completed
 - - -
 
 #### 项目运行环境配置
@@ -86,6 +89,12 @@ A category must have at least one appender.
 ‘fatal’, ‘mark’ - log events of ‘info’, ‘warn’, ‘debug’, or ‘trace’ will be ignored.
 
 #### 项目框架分层
+##### 参数校验
+* 非空、手机号格式
+* Object
+* Array
+* Number
+* Float
 
 #### 接口访问权限 接口访问频率限制(接口安全防护)
 * loginRequire

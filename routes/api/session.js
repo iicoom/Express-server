@@ -9,25 +9,25 @@ var noop = tools.noop;
 var YunFarmError = require('../../util/error');
 var config = require('../../config');
 
-var q = require("q");
+var q = require('q');
 var _ = require('lodash');
 var RedisService = require('../../service/redis');
 var rc = RedisService.rc;
-var userService = require("../../service/user");
+var userService = require('../../service/user');
 
 /**
  * 登录
  */
-router.post("/login", function (req, res) {
+router.post('/login', function (req, res) {
 
     var mobile = req.body.mobile;
     var password = req.body.password;
     var role_type = req.body.role_type;
 
     var errorMsg;
-    errorMsg || mobile || (errorMsg = "用户名不能为空");
-    errorMsg || ranchUtil.testPhone(mobile) || (errorMsg = "手机号格式不正确");
-    errorMsg || password || (errorMsg = "密码不能为空");
+    errorMsg || mobile || (errorMsg = '用户名不能为空');
+    errorMsg || ranchUtil.testPhone(mobile) || (errorMsg = '手机号格式不正确');
+    errorMsg || password || (errorMsg = '密码不能为空');
     if (errorMsg) {
         return ranchUtil.doResult(res, ranchUtil.generateErr(ErrorCode.User_ErrorParams, errorMsg));
     }
@@ -54,7 +54,7 @@ router.post("/login", function (req, res) {
                         return q.resolve(userInfo);
                     })
             } else {
-                return q.reject(ranchUtil.generateErr(ErrorCode.User_ErrorAuth, "用户名或密码不正确"));
+                return q.reject(ranchUtil.generateErr(ErrorCode.User_ErrorAuth, '用户名或密码不正确'));
             }
         }).then(function (userInfo) {
             var deferred = q.defer();
@@ -67,10 +67,10 @@ router.post("/login", function (req, res) {
         }).finally(function () {
             ranchUtil.doResult(res, error, result);
         });
-})
+});
 
 /*登录 带密码错误拦截的*/
-router.post("/signin", function(req, res){
+router.post('/signin', function(req, res){
     var mobile = req.body.mobile;
     var password = req.body.password;
     var now = _.now();
@@ -78,9 +78,9 @@ router.post("/signin", function(req, res){
     var error,result;
 
     var errorMsg;
-    errorMsg || mobile || (errorMsg = "用户名不能为空");
-    errorMsg || ranchUtil.testPhone(mobile) || (errorMsg = "手机号格式不正确");
-    errorMsg || password || (errorMsg = "密码不能为空");
+    errorMsg || mobile || (errorMsg = '用户名不能为空');
+    errorMsg || ranchUtil.testPhone(mobile) || (errorMsg = '手机号格式不正确');
+    errorMsg || password || (errorMsg = '密码不能为空');
     if (errorMsg) {
         return ranchUtil.doResult(res, ranchUtil.generateErr(ErrorCode.User_ErrorParams, errorMsg));
     }
@@ -150,13 +150,13 @@ router.post("/signin", function(req, res){
             })
         })
 
-})
+});
 
 
 /**
  * 登出
  */
-router.delete("/logout", function (req, res) {
+router.delete('/logout', function (req, res) {
 
     var error;
     var openid = req.session.wx_openid;
@@ -180,7 +180,7 @@ router.delete("/logout", function (req, res) {
         .catch(function (err) {
             error = err;
         }).finally(function () {
-            ranchUtil.doResult(res, error, {msg: "您已退出登录"});
+            ranchUtil.doResult(res, error, {msg: '您已退出登录'});
         });
 });
 

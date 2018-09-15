@@ -24,11 +24,11 @@ if (env == 'production') {
     }
 } else if (env == 'test') {
 	/**
-     * 开发环境配置的参数
+     * 测试环境配置的参数
      */
     module.exports = {
-        envirment_port: "8099",
-        server_port: "3000",
+        envirment_port: '8099',
+        server_port: '3000',
         session_secret: 'cH38wtQAj9X672QgNUR0L7x5n1MNIh',
         cookie_max_age: 10 * 24 * 3600 * 1000,
         session_max_age: 10 * 24 * 3600,
@@ -39,8 +39,8 @@ if (env == 'production') {
      *开发环境配置的参数
      */
     module.exports = {
-        envirment_port: "8099",
-        server_port: "3001",
+        envirment_port: '8099',
+        server_port: '3001',
         session_secret: 'cH38wtQAj9X672QgNUR0L7x5n1MNIh',
         cookie_max_age: 10 * 24 * 3600 * 1000,
         session_max_age: 10 * 24 * 3600,
@@ -57,5 +57,10 @@ if (env == 'production') {
             port: 33333
         },
         log_dir: __dirname + '/logs',
+        wechat: {
+            appID: 'wx4d2b79e558009896',
+            appsecret: 'acd40ce586f5e35953690e6e27f48d91',
+            token: 'checkitout'
+        }
     }
 }

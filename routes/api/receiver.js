@@ -11,7 +11,7 @@ var constant = require('../../util/constant');
 var RoleType = constant.RoleType;
 var ErrorCode = util.errorCode;
 var ranchUtil = util.ranchUtil;
-var auth = require('../../service/auth');
+var auth = require('../../middleware/auth');
 var log = require('../../libs/log');
 var logger = log.getLogger('receiver');
 

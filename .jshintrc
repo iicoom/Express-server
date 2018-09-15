@@ -21,6 +21,7 @@
   "globalstrict": false,
   "lastsemic": true,
   "laxcomma": false,
-  "sub": true,
-  "supernew": false
+  "sub": false,
+  "supernew": true,
+  "expr": true
 }

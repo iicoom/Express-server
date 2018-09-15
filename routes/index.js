@@ -3,7 +3,6 @@ var router = express.Router();
 var auth = require('../middleware/auth');
 
 var mongoose = require('mongoose');
-var q = require('q');
 mongoose.Promise = require('q').Promise;
 
 //进路由线连接数据库
@@ -32,10 +31,12 @@ router.use('/users', require('./api/user'));
 router.use('/session', require('./api/session'));
 router.use('/activity', require('./activity'));
 router.use('/receiver', require('./api/receiver'));
+router.use('/wechat', require('./api/wechat'));
 
 //Another example of this is white-listed “global” functionality. 
 //Here the example is much like before, but it only restricts paths prefixed with “/api”:
-router.all('/diudiu/*', auth.loginRequired([1,2,3]), function(req,res){
+// http://localhost:3001/api/diudiu/
+router.all('/diudiu/*', auth.loginRequire([1,2,3]), function(req,res){
 	res.send('hello world 刘奶奶')
 });
 

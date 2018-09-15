@@ -4,6 +4,7 @@ var ErrorCode = require('./errorCode');
 var Messages = require('./errorMsg');
 // var _ = require('lodash');
 var constant = require('./constant');
+var config = require('../config');
 
 
 /**
@@ -150,5 +151,33 @@ exports.doResult = function(res, error, body) {
   }
 };
 
+/**
+ * 加密算法
+ * @param data
+ * @param algorithm
+ * @returns {Buffer|string}
+ */
+exports.digest = function(data, algorithm) {
+  var crypto = require('crypto');
+  algorithm || (algorithm = 'md5');
+  var shasum = crypto.createHash(algorithm);
+  shasum.update(data);
+  var d = shasum.digest('hex');
+  return d;
+}
+
+/**
+ * 微信接入 验证签名
+ * @param signature
+ * @param timestamp
+ * @param nonce
+ */
+exports.checkSignature = function (signature, timestamp, nonce) {
+
+  var token =config.wechat.token;
+  var arr = new Array(token, timestamp, nonce);
+  // 将token、timestamp、nonce三个参数进行字典序排序
+  arr = arr.sort();
+};
 
 module.exports = exports;
