@@ -31,7 +31,7 @@ router.use('/users', require('./api/user'));
 router.use('/session', require('./api/session'));
 router.use('/activity', require('./activity'));
 router.use('/receiver', require('./api/receiver'));
-router.use('/wechat', require('./api/wechat'));
+router.use('/wechat', require('./api/wechat')); 		//
 
 //Another example of this is white-listed “global” functionality. 
 //Here the example is much like before, but it only restricts paths prefixed with “/api”:
