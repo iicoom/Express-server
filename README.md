@@ -104,7 +104,38 @@ A category must have at least one appender.
 #### 数据库选型
 
 #### 代码流程控制工具（Q，Promise）
+```$xslt
+// https://github.com/kriskowal/q
+/*
+On the first pass, promises can mitigate the “Pyramid of Doom”: 
+the situation where code marches to the right faster than it marches forward. 
+*/
+step1(function (value1) {
+    step2(value1, function(value2) {
+        step3(value2, function(value3) {
+            step4(value3, function(value4) {
+                // Do something with value4
+            });
+        });
+    });
+});
 
+// With a promise library, you can flatten the pyramid.
+Q.fcall(promisedStep1)
+.then(promisedStep2)
+.then(promisedStep3)
+.then(promisedStep4)
+.then(function (value4) {
+    // Do something with value4
+})
+.catch(function (error) {
+    // Handle any error from all above steps
+})
+.done();
+
+//  (Here promisedStepN is a version of stepN that returns a promise.)
+
+```
 
 #### 项目的运维
 [PM2](https://pm2.io/doc/en/runtime/guide/process-management/)

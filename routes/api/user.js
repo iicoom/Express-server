@@ -13,6 +13,7 @@ var constant = require('../../util/constant');
 var log = require('../../libs/log');
 var logger = log.getLogger('out');
 
+//用户注册 role_type 1：管理员 2：普通用户
 router.post('/regist',function(req,res,next){
     var mobile = req.body.mobile;
     var password = req.body.password;
@@ -66,10 +67,11 @@ router.post('/regist',function(req,res,next){
         .then(function(registUserInfo){
           return qUserLoginInit(req.session,registUserInfo._id.toString())
               .then(function(userInfo){
-                userInfo = ranchUtil.deleteModelInfo(userInfo);
+                userInfo = ranchUtil.deleteModelInfo(userInfo); // 去除敏感字段信息 放入session中
                 userInfo.accessToken = req.sessionID;
+                req.session.userInfo = userInfo;
+                logger.info('qUserLoginInit-session\n', req.session);
                 result = userInfo;
-                logger.info('qUserLoginInit-session', req.session)
               });
         }).catch(function(err){
           error = err;

@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 var Q = require('q');
 var util = require('../util');
@@ -72,7 +72,7 @@ exports.authUserInfo = function(mobile, password, role_type, cb) {
         }).catch(function(err) {
             cb && cb(err);
         })
-}
+};
 
 //用户登录初始化
 exports.userLoginInit = function(session, user_id, cb) {
@@ -172,14 +172,13 @@ exports.userLoginInit = function(session, user_id, cb) {
             }
         }).then(function(userInfo) {
             // session.userInfo = ranchUtil.deleteModelInfo(userInfo);
-            session.userInfo = userInfo;
             result = userInfo;
         }).catch(function(err) {
             error = err;
         }).finally(function() {
             cb && cb(error, result);
         });
-}
+};
 
 /*查询用户列表*/
 exports.searchUserList = function (condition, cb) {
@@ -190,7 +189,7 @@ exports.searchUserList = function (condition, cb) {
         }).catch(function(err) {
             cb && cb(err);
         })
-}
+};
 
 /**
  * 查询用户详情
@@ -207,7 +206,7 @@ exports.getUserInfo = function(_id, cb) {
         }).catch(function(err) {
             cb && cb(err);
         })
-}
+};
 
 /**
  * 根据手机号查询用户
@@ -239,7 +238,7 @@ exports.updateUserInfo = function(condition, userInfo, cb) {
         .catch(function(err) {
             cb && cb(err);
         })
-}
+};
 
 module.exports = exports;
 

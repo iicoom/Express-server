@@ -18,10 +18,9 @@ var logger = log.getLogger('out');
 
 
 // 2018-09-10至2018-09-14投资统计 领取节日礼品
-router.post('/', /*auth.loginRequire(RoleType.User),*/ function (req, res) {
+router.post('/', auth.loginRequire(RoleType.User), function (req, res) {
   var userInfo = req.session.userInfo;
-  // var uid = userInfo._id || userInfo.id;
-  var uid = '123';
+  var uid = userInfo._id || userInfo.id;
   var receiver = {};
   receiver.receiver_name = req.body.receiver_name;
   receiver.receiver_mobile = req.body.receiver_mobile;
@@ -47,47 +46,44 @@ router.post('/', /*auth.loginRequire(RoleType.User),*/ function (req, res) {
     user_id: uid
   };
   var error;
-  var result = {};
   var nowtime = ranchUtil.getNowTime();
   var start = new Date('2018-09-12 00:00:00').getTime();
   var end = new Date('2018-09-26 10:00:00').getTime();
   // 只能在规定活动时间内填写
   if ((nowtime > start) && (nowtime < end)) {
     // 1. 验证当前用户是否有资格 2. 验证用户是否已领取过
-    Q.fcall(orderService.count, query)
-      .then(function (count) {
-        logger.debug('user_id: '+ uid +' count: '+ count);
-        if(count === 0){
-          ranchUtil.doResult(res,ranchUtil.generateErr(ErrorCode.User_ErrorParams,'您不符合活动参与条件'));
-        }else{
-          Q.fcall(receiverService.findOne, { mobile: userInfo.mobile })
-          .then(function (exist) {
-            console.log('exist', exist);
-            if (exist) {
-              return ranchUtil.doResult(res,ranchUtil.generateErr(ErrorCode.User_ErrorParams,'您已经填写过领取信息了'));
-            } else {
-              return Q.fcall(receiverService.create, receiver)
-              .then(function (res) {
-                console.log('res:', res);
-                result = res;
-              })
-              .then(function () {
-                ranchUtil.doResult(res,error,result);
-              });
-            }
-          });
-        }
-      })
-      .catch(function (e) {
-        error = e;
-      });
+    Q.nfcall(orderService.count, query)
+    .then(function (count) {
+      logger.debug('user_id: '+ uid +' count: '+ count);
+      if(count === 0){
+        ranchUtil.doResult(res,ranchUtil.generateErr(ErrorCode.User_ErrorParams,'您不符合活动参与条件'));
+      }else{
+        Q.nfcall(receiverService.findOne, { mobile: userInfo.mobile })
+        .then(function (exist) {
+          console.log('exist', exist);
+          if (exist) {
+            return ranchUtil.doResult(res,ranchUtil.generateErr(ErrorCode.User_ErrorParams,'您已经填写过领取信息了'));
+          } else {
+            return Q.nfcall(receiverService.create, receiver)
+            .then(function (res) {
+              console.log('res:', res);
+              ranchUtil.doResult(res,error,res);
+            })
+          }
+        });
+      }
+    })
+    .catch(function (e) {
+      error = e;
+      ranchUtil.doResult(res,error,null);
+    });
   } else {
-    ranchUtil.doResult(res,ranchUtil.generateErr(ErrorCode.User_ErrorParams,'请于2018-09-12至2018-09-17 上午10点前填写！'));
+    ranchUtil.doResult(res,ranchUtil.generateErr(ErrorCode.User_ErrorParams,'请于2018-09-12至2018-09-26 上午10点前填写！'));
   }
 
 });
 
-router.get('/', /*auth.loginRequire(RoleType.Administor),*/ function(req, res) {
+router.get('/', auth.loginRequire(RoleType.Administor), function(req, res) {
   logger.debug('come into get router...i am debug');
   logger.info('come into get router...');
   logger.fatal('come into get router...i am fatal');

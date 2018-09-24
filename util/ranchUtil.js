@@ -141,7 +141,6 @@ exports.doResult = function(res, error, body) {
     }
 
     var errCode = error.errcode;
-    console.log('errcode: ' + error.errcode);
     httpStatus = parseInt((errCode + '').substr(0, 3));
     console.log('-----res.status(httpStatus).json(error)------');
     res.status(httpStatus).json(error);
