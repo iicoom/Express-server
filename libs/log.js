@@ -73,7 +73,7 @@ log4js.configure({
     //日志的出口问题（即日志输出到哪里）就由 Appender 来解决
     //日志的分级,不同级别的日志在控制台中采用不同的颜色，比如 error 通常是红色的
     categories: {
-        default: { appenders: ['out'], level: 'info' },
+        default: { appenders: ['out'], level: 'trace' },
         receiver: { appenders: ['receiver'], level: 'info' }
     }
 });

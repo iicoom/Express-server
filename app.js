@@ -8,7 +8,7 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var redis = require('./service/redis');
 var RedisStore = require('connect-redis')(session);
-var logger = require('morgan');
+var morgan = require('morgan');
 // require('./redis_subscribe');
 
 
@@ -57,7 +57,7 @@ app.use(session({
     })
 }));
 
-app.use(logger())
+app.use(morgan('combined'))
    .use(require('./middleware/validator')());
 
 

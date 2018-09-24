@@ -1,14 +1,14 @@
 /**
- * YunFarmError constructor
+ * ProjectNameError constructor
  *
  * @param {String} msg Error message
  */
 var inherits = require('util').inherits;
 
-function YunFarmError(code, msg, cause) {
+function ProjectNameError(code, msg, cause) {
     Error.call(this);
-    Error.captureStackTrace(this, YunFarmError);
-    this.name = 'YunFarmError';
+    Error.captureStackTrace(this, ProjectNameError);
+    this.name = 'ProjectNameError';
     this.code = code;
     this.cause = cause;
     this.message = msg;
@@ -17,9 +17,9 @@ function YunFarmError(code, msg, cause) {
 /*!
  * Inherits from Error.
  */
-inherits(YunFarmError, Error);
+inherits(ProjectNameError, Error);
 
-YunFarmError.prototype.toJSON = function() {
+ProjectNameError.prototype.toJSON = function() {
     return JSON.stringify({
         name: this.name,
         code: this.code || '',
@@ -33,9 +33,9 @@ YunFarmError.prototype.toJSON = function() {
  * Module exports.
  */
 
-module.exports = exports = YunFarmError;
+module.exports = exports = ProjectNameError;
 
-// var err = new YunFarmError('100000', '用户名或者密码错误', '用户名错误');
+// var err = new ProjectNameError('100000', '用户名或者密码错误', '用户名错误');
 
 // console.log(err);
 // console.log(err.stack)

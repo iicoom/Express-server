@@ -6,8 +6,8 @@ var ranchUtil = util.ranchUtil;
 var ErrorCode = util.errorCode;
 var tools = util.tools;
 var noop = tools.noop;
-var YunFarmError = require('../../util/error');
 var config = require('../../config');
+var ProjectNameError = require('../../util/error');
 
 var q = require('q');
 var _ = require('lodash');
@@ -44,7 +44,6 @@ router.post('/login', function (req, res) {
     //查询条件为loginname，role_type
     qAuthUserInfo(mobile, password, role_type)
         .then(function (userInfo) {
-            console.log(userInfo);
             if (userInfo) {
                 return qUserLoginInit(req.session, userInfo._id.toString())
                     .then(function (userInfo) {
@@ -89,7 +88,7 @@ router.post('/signin', function(req, res){
         .then(function (limit) {
             if (limit) {
                 var m = Math.ceil(((10 * 60 * 1000 + parseInt(limit)) - now) / (60 * 1000));
-                throw new YunFarmError('', '账户冻结，请再' + m + '分钟后再试。')
+                throw new ProjectNameError('', '账户冻结，请再' + m + '分钟后再试。')
             }
             return q.nfcall(RedisService.get, mobile + '-login-fail');
         })
@@ -102,26 +101,26 @@ router.post('/signin', function(req, res){
                     .expire(mobile + '-login-limit', 10 * 60) // 有效期10分钟
                     .exec(noop);
 
-                throw new YunFarmError('', '密码错误，10分钟后再试。');
+                throw new ProjectNameError('', '密码错误，10分钟后再试。');
             }
             return q.nfcall(userService.findUserByMobile, mobile);
         })
         .then(function (user) {
              // 用户不存在
-            if (!user) throw new YunFarmError('1009', '用户名或密码错误。');
+            if (!user) throw new ProjectNameError('1009', '用户名或密码错误。');
             var passhash = tools.sha256(password + user.salt);
             // 密码错误
             if (user.password !== passhash) {
                 // 记录失败次数
                 rc.incr(mobile + '-login-fail');
-                throw new YunFarmError('1009', '用户名或密码错误。');
+                throw new ProjectNameError('1009', '用户名或密码错误。');
             } else {
                 rc.del(mobile + '-login-fail');
             }
 
             // 用户被禁用
-            if (!!user.disabled) throw new YunFarmError('1010', '账号已冻结。');
-            if (!!user.unsubscribe) throw new YunFarmError('', '账号已注销。');
+            if (!!user.disabled) throw new ProjectNameError('1010', '账号已冻结。');
+            if (!!user.unsubscribe) throw new ProjectNameError('', '账号已注销。');
 
             return q.resolve(user);
         })

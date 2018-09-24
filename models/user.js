@@ -35,18 +35,19 @@ var UserSchema = new Schema({
     },
     unsubscribe: Boolean,// 账户注销
     disabled :{type:Boolean}//禁止用户登录
-})
+});
 
 
 if (!UserSchema.options.toObject) UserSchema.options.toObject = {};
 UserSchema.options.toObject.transform = function (doc, ret, options) {
-    delete ret.announce_lversion;
     delete ret.pay_pwd;
-    delete ret.history;
     delete ret.password;
     delete ret.wxopenid;
     delete ret.salt;
-}
+    delete ret._id;
+    delete ret.__v;
+    return ret;
+};
 
 
 // 序列化结果
@@ -54,32 +55,25 @@ UserSchema.set('toJSON', {
     virtuals: true,
     transform: function(doc, ret) {
         delete ret.pay_pwd;
-        delete ret.history;
         delete ret.password;
         delete ret.wxopenid;
         delete ret.salt;
+        delete ret._id;
+        delete ret.__v;
         return ret;
     }
 });
 
-
-// UserSchema.virtual('id')
-//     .get(function() {
-//         if (typeof this._id == 'object')
-//             return this._id.toHexString();
-//         return this._id;
-//     });  //返回的无下划线id跟这个貌似没有关系哎
-
 UserSchema.virtual('idcard2')
-    .get(function () {
-        if (this.idcard) {
-            if (this.idcard.length === '18') {
-                return this.idcard.substr(0, 6) + '********' + this.idcard.substr(14);
-            } else if (this.idcard.length === '15') {
-                return this.idcard.substr(0, 6) + '*****' + this.idcard.substr(11);
-            }
+.get(function () {
+    if (this.idcard) {
+        if (this.idcard.length === '18') {
+            return this.idcard.substr(0, 6) + '********' + this.idcard.substr(14);
+        } else if (this.idcard.length === '15') {
+            return this.idcard.substr(0, 6) + '*****' + this.idcard.substr(11);
         }
-    });
+    }
+});
 
 
-module.exports = mongoose.model("User",UserSchema);
+module.exports = mongoose.model('User', UserSchema);

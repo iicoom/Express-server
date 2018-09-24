@@ -3,8 +3,8 @@
  */
 var express = require('express');
 var router = express.Router();
-var q = require('q');
-// var orderService = require('../../service/order');
+var Q = require('q');
+var orderService = require('../../service/order');
 var receiverService = require('../../service/receiver');
 var util = require('../../util/index');
 var constant = require('../../util/constant');
@@ -13,13 +13,15 @@ var ErrorCode = util.errorCode;
 var ranchUtil = util.ranchUtil;
 var auth = require('../../middleware/auth');
 var log = require('../../libs/log');
-var logger = log.getLogger('receiver');
+// var logger = log.getLogger('receiver');
+var logger = log.getLogger('out');
 
 
 // 2018-09-10至2018-09-14投资统计 领取节日礼品
-router.post('/', auth.loginRequire(RoleType.User), function (req, res) {
+router.post('/', /*auth.loginRequire(RoleType.User),*/ function (req, res) {
   var userInfo = req.session.userInfo;
-  var uid = userInfo._id || userInfo.id;
+  // var uid = userInfo._id || userInfo.id;
+  var uid = '123';
   var receiver = {};
   receiver.receiver_name = req.body.receiver_name;
   receiver.receiver_mobile = req.body.receiver_mobile;
@@ -33,9 +35,9 @@ router.post('/', auth.loginRequire(RoleType.User), function (req, res) {
     return ranchUtil.doResult(res,ranchUtil.generateErr(ErrorCode.User_ErrorParams,errorMsg));
   }
 
-  receiver.username = userInfo.username;
-  receiver.nickname = userInfo.nickname;
-  receiver.mobile = userInfo.mobile;
+  // receiver.username = userInfo.username;
+  // receiver.nickname = userInfo.nickname;
+  // receiver.mobile = userInfo.mobile;
   receiver.create_time = new Date().getTime();
 
   // 统计2018-09-10至2018-09-14后 用户是否有单笔金额大于等于10000RMB的订单（有则具备填写礼品申请表的资格）
@@ -48,37 +50,37 @@ router.post('/', auth.loginRequire(RoleType.User), function (req, res) {
   var result = {};
   var nowtime = ranchUtil.getNowTime();
   var start = new Date('2018-09-12 00:00:00').getTime();
-  var end = new Date('2018-09-17 10:00:00').getTime();
+  var end = new Date('2018-09-26 10:00:00').getTime();
   // 只能在规定活动时间内填写
   if ((nowtime > start) && (nowtime < end)) {
     // 1. 验证当前用户是否有资格 2. 验证用户是否已领取过
-    q.nfcall(orderService.count, query)
-    .then(function (count) {
-      console.log('user_id: '+ uid +' count: '+ count);
-      if(count == 0){
-        ranchUtil.doResult(res,ranchUtil.generateErr(ErrorCode.User_ErrorParams,'您不符合活动参与条件'));
-      }else{
-        q.nfcall(receiverService.findOne, { mobile: userInfo.mobile })
-        .then(function (exist) {
-          console.log('exist', exist);
-          if (exist) {
-            return ranchUtil.doResult(res,ranchUtil.generateErr(ErrorCode.User_ErrorParams,'您已经填写过领取信息了'));
-          } else {
-            return q.nfcall(receiverService.create, receiver)
-            .then(function (res) {
-              console.log('res:', res);
-              result = res;
-            })
-            .then(function () {
-              ranchUtil.doResult(res,error,result);
-            });
-          }
-        });
-      }
-    })
-    .catch(function (e) {
-      error = e;
-    });
+    Q.fcall(orderService.count, query)
+      .then(function (count) {
+        logger.debug('user_id: '+ uid +' count: '+ count);
+        if(count === 0){
+          ranchUtil.doResult(res,ranchUtil.generateErr(ErrorCode.User_ErrorParams,'您不符合活动参与条件'));
+        }else{
+          Q.fcall(receiverService.findOne, { mobile: userInfo.mobile })
+          .then(function (exist) {
+            console.log('exist', exist);
+            if (exist) {
+              return ranchUtil.doResult(res,ranchUtil.generateErr(ErrorCode.User_ErrorParams,'您已经填写过领取信息了'));
+            } else {
+              return Q.fcall(receiverService.create, receiver)
+              .then(function (res) {
+                console.log('res:', res);
+                result = res;
+              })
+              .then(function () {
+                ranchUtil.doResult(res,error,result);
+              });
+            }
+          });
+        }
+      })
+      .catch(function (e) {
+        error = e;
+      });
   } else {
     ranchUtil.doResult(res,ranchUtil.generateErr(ErrorCode.User_ErrorParams,'请于2018-09-12至2018-09-17 上午10点前填写！'));
   }
@@ -106,10 +108,10 @@ router.get('/', /*auth.loginRequire(RoleType.Administor),*/ function(req, res) {
     }
   };
 
-  q.nfcall(receiverService.findList, query, opt)
+  Q.fcall(receiverService.findList, query, opt)
   .then(function(list) {
     result.data = list;
-    return q.nfcall(receiverService.count, query);
+    return Q.fcall(receiverService.count, query);
   })
   .then(function (count) {
     result.total_count = count;
@@ -128,7 +130,7 @@ router.get('/:id', auth.loginRequire(RoleType.Administor), function(req, res) {
   var result = {};
   var error;
 
-  q.nfcall(receiverService.findById, receiver_id)
+  Q.fcall(receiverService.findById, receiver_id)
   .then(function(detail) {
     result = detail;
   })
@@ -157,10 +159,10 @@ router.put('/:id', auth.loginRequire(RoleType.Administor), function(req, res) {
     updateInfo.other_info = other_info;
   }
 
-  q.nfcall(receiverService.findById, receiver_id)
+  Q.fcall(receiverService.findById, receiver_id)
     .then(function(receiverInfo) {
       if (receiverInfo) {
-        q.nfcall(receiverService.findByIdAndUpdate, receiver_id, updateInfo)
+        Q.fcall(receiverService.findByIdAndUpdate, receiver_id, updateInfo)
           .then(function () {
             result = { message: '更新成功'};
             ranchUtil.doResult(res,error,result);

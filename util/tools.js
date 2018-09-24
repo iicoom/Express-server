@@ -82,7 +82,7 @@ exports.isMongoVersionError = function(err) {
 
 // 校验是不是自定义异常错误
 exports.isUserDefinedError = function(err) {
-    return (err instanceof Error && (err.name === 'WeiboPayError' || err.name === 'YunFarmError'));
+    return (err instanceof Error && (err.name === 'WeiboPayError' || err.name === 'ProjectNameError'));
 }
 
 exports.isWeiboPayError = function(err) {

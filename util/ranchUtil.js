@@ -107,7 +107,7 @@ var isInternalError = exports.isInternalError = function(e) {
 
 // 校验是不是自定义异常错误
 var isUserDefinedError = exports.isUserDefinedError = function(e) {
-  return (e instanceof Error && (e.name === 'WeiboPayError' || e.name === 'YunFarmError'));
+  return (e instanceof Error && (e.name === 'WeiboPayError' || e.name === 'ProjectNameError'));
 };
 /***********************错误分类处理end***********************************/
 
@@ -128,7 +128,7 @@ exports.doResult = function(res, error, body) {
     } else if (isInternalError(error)) {
       error = new ResultError(ErrorCode.UnKnow_Error, error.errmsg);
     } else if (isUserDefinedError(error)) {
-      var message = Messages[error.code];
+      var message = Messages[error.code]; // 预先定义好的错误类型
       res.status((message && message.status_code) || 400);
       return res.json({
         name: error.name,
@@ -139,6 +139,7 @@ exports.doResult = function(res, error, body) {
     } else {
       error = new ResultError(ErrorCode.UnKnow_Error, '服务器错误');
     }
+
     var errCode = error.errcode;
     console.log('errcode: ' + error.errcode);
     httpStatus = parseInt((errCode + '').substr(0, 3));
@@ -146,7 +147,6 @@ exports.doResult = function(res, error, body) {
     res.status(httpStatus).json(error);
   } else {
     httpStatus = parseInt((ErrorCode.Success + '').substr(0, 3));
-    // console.log(body)
     res.status(httpStatus).json(body);
   }
 };
@@ -164,7 +164,7 @@ exports.digest = function(data, algorithm) {
   shasum.update(data);
   var d = shasum.digest('hex');
   return d;
-}
+};
 
 /**
  * 微信接入 验证签名
@@ -175,9 +175,19 @@ exports.digest = function(data, algorithm) {
 exports.checkSignature = function (signature, timestamp, nonce) {
 
   var token =config.wechat.token;
-  var arr = new Array(token, timestamp, nonce);
+  var arr = [token, timestamp, nonce];
   // 将token、timestamp、nonce三个参数进行字典序排序
   arr = arr.sort();
+};
+
+/**
+ * 删除 处理后才可以添加属性
+ * @param model
+ * @returns {*}
+ */
+exports.deleteModelInfo = function(model) {
+  // return model.toObject(); 不会返回id字段
+  return model.toJSON();
 };
 
 module.exports = exports;

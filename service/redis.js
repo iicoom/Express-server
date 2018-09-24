@@ -1,11 +1,9 @@
 var _ = require('lodash');
 var Redis = require('redis');
-var config = require('../config');
-
 var noop = require('../util/tools').noop;
 
-var getRedisClient = exports.getRedisClient = function(rcc) {
-    console.log('redis.getRedisClient');
+var rc = exports.getRedisClient = function(rcc) {
+    console.log('Redis.getRedisClient');
     var rc = Redis.createClient(rcc.port, rcc.host, rcc);
 
     rc.on('error', function(err) {
@@ -24,7 +22,7 @@ var getRedisClient = exports.getRedisClient = function(rcc) {
 };
 
 
-var rc = exports.rc = getRedisClient(config.redis);
+// var rc = exports.rc = getRedisClient(config.redis);
 
 
 exports.get = function(key, cb) {

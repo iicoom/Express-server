@@ -1,8 +1,8 @@
 'use strict'
 
-var Msg = require("../model/msg");
-var Q = require("q");
-var ranchUtil = require("../util/ranchUtil")
+var Msg = require('../models/msg');
+var Q = require('q');
+var ranchUtil = require('../util/ranchUtil')
 
 Msg.qFind = Q.nbind(Msg.find,Msg);
 Msg.qUpdate = Q.nbind(Msg.update,Msg);

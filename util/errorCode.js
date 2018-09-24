@@ -35,6 +35,8 @@ ErrorCode.User_ErrorParams = 403003; //参数错误
 ErrorCode.User_ErrorNotFind = 403004; //未找到相关资源
 ErrorCode.User_ErrorVerifyCode = 403005; //验证码错误
 ErrorCode.User_ErrorUnAuth = 401001; // 权限不足
+ErrorCode.User_Rgister_Pass_Not_Match = 403100; // 注册两次输入密码不一致
+ErrorCode.User_Rgister_Already_Exist = 403101; // 注册两次输入密码不一致
 
 //请求次数限制
 ErrorCode.User_ErrorRequestLimit = 403015; //请求次数限制

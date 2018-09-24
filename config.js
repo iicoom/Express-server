@@ -27,7 +27,6 @@ if (env == 'production') {
      * 测试环境配置的参数
      */
     module.exports = {
-        envirment_port: '8099',
         server_port: '3000',
         session_secret: 'cH38wtQAj9X672QgNUR0L7x5n1MNIh',
         cookie_max_age: 10 * 24 * 3600 * 1000,
@@ -39,13 +38,12 @@ if (env == 'production') {
      *开发环境配置的参数
      */
     module.exports = {
-        envirment_port: '8099',
-        server_port: '3001',
+        server_port: '3000',
         session_secret: 'cH38wtQAj9X672QgNUR0L7x5n1MNIh',
         cookie_max_age: 10 * 24 * 3600 * 1000,
         session_max_age: 10 * 24 * 3600,
         // db: 'mongodb://username:password@master.mongodb.aliyun.mybiubiu.net/Fuck',
-        db: '127.0.0.1:27017/Express-api',
+        db: 'mongodb://127.0.0.1:27017/Express-api',
         redis: {
             port: 6379,
             //host: '101.201.197.163',
