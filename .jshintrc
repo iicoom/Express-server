@@ -8,7 +8,7 @@
   "newcap": true,
   "noempty": true,
   "quotmark": "single",
-  "undef": true,
+//  "undef": true,
   "unused": true,
   "trailing": true,
   "maxlen": 120,

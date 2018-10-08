@@ -143,6 +143,11 @@ Q.fcall(promisedStep1)
 
 Mocha is a feature-rich JavaScript test framework running on Node.js and in the browser, 
 making asynchronous testing simple and fun.
+Usage: mocha [debug] [options] [files]
+-V, --version                           output the version number
+
+➜  Express-server git:(master) ✗ mocha test/services/addTest.js
+
 
 断言库：
 Should.js
