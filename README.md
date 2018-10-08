@@ -1,35 +1,35 @@
 # Express-server
 ### 框架级别
-* 项目运行环境配置（环境差异配置）   completed
+* 项目运行环境配置（环境差异配置）                  🚩
 
-* 开发环境热更新                   completed
+* 开发环境热更新                                  🚩
 
-* ES6/ES7 babel 转码（暂不考虑）
+* ES6/ES7 babel 转码（暂不考虑）                  
 
-* 语法检测工具（ESLint, JShint）
+* 语法检测工具（ESLint, JShint）                  🚩
 
-* 日志管理(等级、日期格式、切割、保留时间)    completed
+* 日志管理(等级、日期格式、切割、保留时间)           🚩
 
-* 项目框架分层
+* 项目框架分层                                    🚩
 [middleware、model、service、
  routes、controller、util]
 
-* 接口访问权限 接口访问频率限制(接口安全防护)  completed
+* 接口访问权限 接口访问频率限制(接口安全防护)         🚩
 
-* 异常的处理（抛出 前端的返回 错误状态的定义）  completed
+* 异常的处理（抛出 前端的返回 错误状态的定义）        🚩
 
-* 项目常量的组织方式                        completed
+* 项目常量的组织方式                               🚩
 [constant、error code message]
 
 * 跨域的处理方式
 
 * 数据库选型（mongodb、redis、mysql）
 
-* 代码流程控制工具（Q，Promise）
+* 代码流程控制工具（Q，Promise）                   🚩
 
-* 单元测试（框架、流程）
+* 单元测试（框架、流程）                           🚩
 
-* 项目的运维（PM2）             completed
+* 项目的运维（PM2）                               🚩
 - - -
 
 #### 项目运行环境配置
@@ -136,6 +136,20 @@ Q.fcall(promisedStep1)
 //  (Here promisedStepN is a version of stepN that returns a promise.)
 
 ```
+
+#### 单元测试
+[玩转Node.js单元测试](https://cnodejs.org/topic/58d1cafc17f61387400b7e4a)
+测试框架：
+
+Mocha is a feature-rich JavaScript test framework running on Node.js and in the browser, 
+making asynchronous testing simple and fun.
+
+断言库：
+Should.js
+
+SuperTest:
+HTTP assertions made easy via superagent.
+
 
 #### 项目的运维
 [PM2](https://pm2.io/doc/en/runtime/guide/process-management/)
